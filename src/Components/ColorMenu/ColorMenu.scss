@@ -1,0 +1,34 @@
+.colorChange-button {
+  width: 25px;
+  height: 13px;
+  background-color: blue;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.drop-down-colors {
+  position: absolute;
+  border-radius: 5px;
+  background-color: rgb(172, 178, 184);
+  padding: 1px;
+  display: none;
+}
+
+.color-item {
+  width: 25px;
+  height: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 3px 0;
+  list-style: none;
+}
+
+.color-item:hover {
+  opacity: 0.5;
+}
+
+.color-menu:hover .drop-down-colors {
+  display: block;
+}
