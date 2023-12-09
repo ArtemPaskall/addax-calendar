@@ -23,6 +23,22 @@
   cursor: pointer;
   margin: 3px 0;
   list-style: none;
+
+  &--active {
+    &::before {
+      content: "\2713";  
+      color: rgb(46, 219, 40); 
+      font-weight: bold;
+      display: inline-block; 
+      width: 3px; 
+      height: 3px;
+      position: relative;
+      left: 30%;
+      top: -30%;
+    }
+  }
+
+
 }
 
 .color-item:hover {

@@ -4,7 +4,6 @@
   justify-content: space-between;
   margin: 4px 4px;
   padding: 2px 4px;
-  border-radius: 5px;
   background-color: #fff;
 }
 
@@ -28,7 +27,7 @@
 }
 
 .task-text {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
 }
 
@@ -49,4 +48,15 @@
   width: 15px;
   height: 15px;
   cursor: pointer;
+}
+
+.edit-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  margin-right: 5px;
+  margin-left: 5px;
 }

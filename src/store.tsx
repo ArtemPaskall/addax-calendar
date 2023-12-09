@@ -4,10 +4,10 @@ import { Taskslist } from './types'
 interface TasksContextData {
   tasksList: Taskslist[]
   setTasksList: React.Dispatch<React.SetStateAction<Taskslist[]>>
-  colorArray: string[]
+  labelsArray: string[]
 }
 
-const colorArray = ['red','yellow', 'blue', 'green', 'orange', 'black']
+const labelsArray = ['red','yellow', 'blue', 'green', 'orange', 'black']
 
 export const TasksContex = createContext<TasksContextData>({} as TasksContextData);
 
@@ -15,7 +15,7 @@ const TasksProvider = ({ children } : { children: ReactNode }) => {
   const [tasksList, setTasksList] = useState<Taskslist[]>([])
 
   return (
-    <TasksContex.Provider value={{tasksList, setTasksList, colorArray}}>
+    <TasksContex.Provider value={{tasksList, setTasksList, labelsArray}}>
       {children}
     </TasksContex.Provider>
   )

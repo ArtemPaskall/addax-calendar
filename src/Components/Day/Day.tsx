@@ -19,7 +19,7 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
     const newTask = {
       date: dayInfo.fullDate,
       tasks: [...(tasksList.find(task => task.date === dayInfo.fullDate)?.tasks || []), 
-      { date: dayInfo.fullDate, text: taskText, labels: ['yellow', 'red'] }],
+      { date: dayInfo.fullDate, text: taskText, labels: ['blue'] }],
     }
 
     setTasksList((prevTasksList) => [...prevTasksList.filter(task => task.date !== dayInfo.fullDate), newTask])
@@ -34,17 +34,17 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
 
   return (
     <>
-      <li onClick={(e) => {openModalHandler(e)}}
-        className={`${dayInfo.inactive ? 'inactive' : ''} ${dayInfo.active ? 'active' : ''} day-cell`}
-      >
-        <div className='day-number'>{dayInfo.day}</div>
+      <li className={`${dayInfo.inactive ? 'inactive' : ''} ${dayInfo.active ? 'active' : ''} day-cell`}>
+        <div className='day-header'>
+          <div className='day-number'>{dayInfo.day}</div>
+          <img src="./plus-icon.png" alt="add item"  className='add-item-icon' onClick={(e) => {openModalHandler(e)}} />
+        </div>
         {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks.map((task, index) => 
-          <div key={index} onClick={(e) => {e.stopPropagation(); console.log('task click')}}>
-            <Task text={task.text} labels={task.labels}/>
+          <div key={index}>
+            <Task text={task.text} labels={task.labels} day={dayInfo}/>
           </div>
         )}
       </li>
-
       {openModal && <Modal setTaskText={setTaskText} setOpenModal={setOpenModal}/>}
     </>
   )
