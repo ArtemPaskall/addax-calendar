@@ -112,8 +112,8 @@ const Calendar = () => {
           <li>Sat</li>
         </ul>
         <ul className="days">
-          {days.map((dayInfo) =>  (
-            <Day key={uuid()} dayInfo={dayInfo} />
+          {days.map((dayInfo, index) =>  (
+            <Day key={index} dayInfo={dayInfo} />
           ))}
         </ul>
       </div>

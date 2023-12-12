@@ -39,8 +39,8 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
           <div className='day-number'>{dayInfo.day}</div>
           <img src="./plus-icon.png" alt="add item"  className='add-item-icon' onClick={(e) => {openModalHandler(e)}} />
         </div>
-        {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks.map((task, index) => 
-          <div key={uuid()}>
+        {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks.map((task) => 
+          <div key={`${task.id}+${task.text}`}>
             <Task day={dayInfo} id={task.id} text={task.text} labels={task.labels}  />
           </div>
         )}

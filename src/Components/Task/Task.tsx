@@ -3,7 +3,6 @@ import { useTasksContext } from '../../store'
 import './Task.scss'
 import LabelMenu from '../LabelMenu/LebelMenu'
 import { DayInfo } from '../../types'
-import uuid from 'react-uuid'
 
 const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: string, labels: string[] }) => {
   const {tasksList, setTasksList, currentDay, setCurrentDay, currentTask, setCurrentTask} = useTasksContext()
@@ -11,7 +10,7 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   const [editedText, setEditedText] = useState<string>(text)
 
   const deleteTaskHandler = (e: React.MouseEvent) => {
-    // e.stopPropagation()
+    e.stopPropagation()
     const newTasksList = tasksList.map(task => {
       if (task.tasks.find(task => task.date === day.fullDate)) {
         return {
@@ -26,7 +25,7 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   }
 
   const saveEditHandler = (e: React.KeyboardEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement, Element>) => {
-    // e.stopPropagation()
+    e.stopPropagation()
     const newTasksList = tasksList.map(task => {
       if (task.tasks.find(task => task.date === day.fullDate)) {
         return {
@@ -74,7 +73,6 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   }
 
   const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, currentDay: DayInfo, currentTask: string) => {
-    // e.preventDefault()
     e.stopPropagation()
     console.log('drag start')
     console.log('currentDay', currentDay)
@@ -91,9 +89,7 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   }
 
   const dropHandler = (e: React.DragEvent<HTMLDivElement>, day: DayInfo, id: string) => {
-    e.preventDefault()
     e.stopPropagation()
- 
  
     if (currentDay && currentTask) {
       const sourceTaskListIndex = tasksList.findIndex(task => task.date === currentDay.fullDate)
@@ -131,6 +127,9 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
       setCurrentDay(null)
       setCurrentTask(null)
     }
+
+    const targetElement = e.currentTarget as HTMLDivElement
+    targetElement.style.boxShadow = 'none'
   }
 
   return (
@@ -142,7 +141,7 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
       onDrop={(e) => dropHandler(e, day, id)}
     >
       <div className='labels-wrapper'>
-        {labels.map((label) => <div key={uuid()} className='label' style={{backgroundColor: `${label}`}}></div>)}
+        {labels.map((label, index) => <div key={index} className='label' style={{backgroundColor: `${label}`}}></div>)}
       </div>
       <div className='task-wrapper'>
         {isEditing && isEditing 
