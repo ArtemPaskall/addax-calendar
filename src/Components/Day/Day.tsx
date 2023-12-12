@@ -4,6 +4,7 @@ import { useTasksContext } from "../../store"
 import Modal from "../Modal/Modal"
 import Task from "../Task/Task"
 import './Day.scss'
+import uuid from 'react-uuid'
 
 function Day({ dayInfo}: { dayInfo: DayInfo }) {
   const {tasksList, setTasksList} = useTasksContext()
@@ -11,7 +12,6 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
   const [taskText, setTaskText] = useState<string>('')
 
   const openModalHandler = (e: React.MouseEvent) => {
-    e.stopPropagation()
     setOpenModal(true)
   }
 
@@ -19,7 +19,7 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
     const newTask = {
       date: dayInfo.fullDate,
       tasks: [...(tasksList.find(task => task.date === dayInfo.fullDate)?.tasks || []), 
-      { date: dayInfo.fullDate, text: taskText, labels: ['blue'] }],
+      {id: uuid(), date: dayInfo.fullDate, text: taskText, labels: ['green'] }],
     }
 
     setTasksList((prevTasksList) => [...prevTasksList.filter(task => task.date !== dayInfo.fullDate), newTask])
@@ -40,8 +40,8 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
           <img src="./plus-icon.png" alt="add item"  className='add-item-icon' onClick={(e) => {openModalHandler(e)}} />
         </div>
         {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks.map((task, index) => 
-          <div key={index}>
-            <Task text={task.text} labels={task.labels} day={dayInfo}/>
+          <div key={uuid()}>
+            <Task day={dayInfo} id={task.id} text={task.text} labels={task.labels}  />
           </div>
         )}
       </li>

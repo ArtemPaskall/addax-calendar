@@ -2,17 +2,21 @@ import { useState, useEffect } from 'react'
 import './Calendar.scss'
 import  Day from '../Day/Day'
 import { DayInfo } from '../../types'
+import uuid from 'react-uuid'
+import html2canvas from 'html2canvas'
+import { useTasksContext } from '../../store'
 
 const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date())
   const [currYear, setCurrYear] = useState<number>(currentDate.getFullYear())
   const [currMonth, setCurrMonth] = useState<number>(currentDate.getMonth())
-  const [days, setDays] = useState<DayInfo[]>([]);
+  const [days, setDays] = useState<DayInfo[]>([])
+  const {tasksList, setTasksList} = useTasksContext()
 
   const months: string[] = [
     "January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"
-  ];
+  ]
 
   const renderCalendar = () => {
     const firstDayofMonth: number = new Date(currYear, currMonth, 1).getDay()
@@ -72,10 +76,26 @@ const Calendar = () => {
     throw new Error('getDateForNonActiveMonth: Unexpected condition, unable to determine fullDate.');
   }
 
+
+  const downloadCalendarImage = () => {
+    const calendarElement = document.getElementById('wrapper')
+      if (!calendarElement) return
+  
+    html2canvas(calendarElement).then((canvas) => {
+      const link = document.createElement('a')
+      link.href = canvas.toDataURL('image/jpeg')
+      link.download = 'calendar.jpeg'
+      link.click()
+    })
+  }
+
+  console.log('tasksList', tasksList)
+
   return (
-    <div className="wrapper">
+    <div className="wrapper" id='wrapper'>
       <header>
         <p className="current-date">{`${months[currMonth]} ${currYear}`}</p>
+        <button onClick={downloadCalendarImage}>Download Calendar</button>
         <div className="icons">
           <span onClick={() => handlePrevNext('prev')}>{'<'}</span>
           <span onClick={() => handlePrevNext('next')}>{'>'}</span>
@@ -93,7 +113,7 @@ const Calendar = () => {
         </ul>
         <ul className="days">
           {days.map((dayInfo) =>  (
-            <Day key={dayInfo.fullDate} dayInfo={dayInfo} />
+            <Day key={uuid()} dayInfo={dayInfo} />
           ))}
         </ul>
       </div>
@@ -101,4 +121,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default Calendar

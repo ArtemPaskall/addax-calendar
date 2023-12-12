@@ -1,7 +1,12 @@
+.color-menu {
+  position: relative;
+}
+
 .colorChange-button {
+  // position: relative;
   width: 25px;
   height: 13px;
-  background-color: blue;
+  background-color: green;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -11,8 +16,9 @@
   position: absolute;
   border-radius: 5px;
   background-color: rgb(172, 178, 184);
-  padding: 1px;
+  padding: 5px;
   display: none;
+  left: -5px;
 }
 
 .color-item {
@@ -37,8 +43,6 @@
       top: -30%;
     }
   }
-
-
 }
 
 .color-item:hover {
@@ -47,4 +51,6 @@
 
 .color-menu:hover .drop-down-colors {
   display: block;
+  position: absolute;
+  z-index: 10;
 }
