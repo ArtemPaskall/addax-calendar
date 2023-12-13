@@ -75,8 +75,6 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, currentDay: DayInfo, currentTask: string) => {
     e.stopPropagation()
     console.log('drag start')
-    console.log('currentDay', currentDay)
-    console.log('currentTask', currentTask)
     setCurrentDay(currentDay)
     setCurrentTask(currentTask)
   }
@@ -92,6 +90,39 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
     e.stopPropagation()
  
     if (currentDay && currentTask) {
+      if (currentDay === day) {
+        const listOfTasksToUpdate = tasksList.find(task => task.date === currentDay.fullDate)?.tasks
+        const listOfTasksToUpdateWithoutCurrent = listOfTasksToUpdate?.filter(task => task.id !== currentTask)
+        let destinationElementIndex = listOfTasksToUpdate?.findIndex(task => task.id === id)
+        destinationElementIndex = destinationElementIndex && destinationElementIndex !== 0 ? ++destinationElementIndex : 1
+        const tasksBeforeDrop = listOfTasksToUpdateWithoutCurrent?.slice(0, destinationElementIndex)
+        const tasksAfterDrop = listOfTasksToUpdateWithoutCurrent?.slice(destinationElementIndex)
+        const currentTaskToUpdate = listOfTasksToUpdate?.find(task => task.id === currentTask)
+        console.log('currentTaskToUpdate', currentTaskToUpdate)
+        console.log('tasksBeforeDrop', tasksBeforeDrop)
+
+        const updatedTasks = tasksBeforeDrop && tasksAfterDrop && currentTaskToUpdate
+        ? [...tasksBeforeDrop, currentTaskToUpdate, ...tasksAfterDrop] 
+        : listOfTasksToUpdate
+
+        const updatedTasksList = tasksList.map(task => {
+          if (task.date === currentDay.fullDate) {
+            return {
+              date: task.date,
+              tasks: updatedTasks || [],
+            }
+          }
+          return task
+        })
+
+        setTasksList(updatedTasksList)
+        setCurrentDay(null)
+        setCurrentTask(null)
+
+        const targetElement = e.currentTarget as HTMLDivElement
+        targetElement.style.boxShadow = 'none'
+        return
+      }
       const sourceTaskListIndex = tasksList.findIndex(task => task.date === currentDay.fullDate)
       const sourceTaskIndex = tasksList[sourceTaskListIndex].tasks.findIndex(task => task.id === currentTask)
   

@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import './Calendar.scss'
 import  Day from '../Day/Day'
 import { DayInfo } from '../../types'
-import uuid from 'react-uuid'
 import html2canvas from 'html2canvas'
 import { useTasksContext } from '../../store'
+import { Taskslist } from '../../types'
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -76,7 +76,6 @@ const Calendar = () => {
     throw new Error('getDateForNonActiveMonth: Unexpected condition, unable to determine fullDate.');
   }
 
-
   const downloadCalendarImage = () => {
     const calendarElement = document.getElementById('wrapper')
       if (!calendarElement) return
@@ -89,6 +88,51 @@ const Calendar = () => {
     })
   }
 
+  const exportTasks = (tasks: Taskslist[]) => {
+    const jsonData = JSON.stringify(tasks, null, 2);
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tasks.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+    const handleExport = () => {
+      exportTasks(tasksList);
+    }
+
+    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const result = event.target?.result as string;
+          if (result) {
+            try {
+              const importedTasks = JSON.parse(result);
+              setTasksList(importedTasks);
+            } catch (error) {
+              console.error('Error parsing JSON file', error);
+            }
+          } else {
+            console.error('File content is null or undefined.');
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+
+    const handleImport = () => {
+      const inputElement = document.getElementById('fileInput');
+      if (inputElement) {
+        inputElement.click();
+      }
+    };
+
   console.log('tasksList', tasksList)
 
   return (
@@ -96,6 +140,15 @@ const Calendar = () => {
       <header>
         <p className="current-date">{`${months[currMonth]} ${currYear}`}</p>
         <button onClick={downloadCalendarImage}>Download Calendar</button>
+        <button onClick={handleExport}>Export Tasks</button>
+        <button onClick={handleImport}>Import Tasks</button>
+        <input
+          type="file"
+          accept=".json"
+          id="fileInput"
+          style={{ display: 'none' }}
+          onChange={handleFileInputChange}
+        />
         <div className="icons">
           <span onClick={() => handlePrevNext('prev')}>{'<'}</span>
           <span onClick={() => handlePrevNext('next')}>{'>'}</span>
