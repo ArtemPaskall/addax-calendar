@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "sass": "^1.69.5"
   }
 }

@@ -7,7 +7,15 @@ import './Day.scss'
 import uuid from 'react-uuid'
 
 function Day({ dayInfo}: { dayInfo: DayInfo }) {
-  const {tasksList, setTasksList} = useTasksContext()
+  const { tasksList, 
+    setTasksList, 
+    currentDay, 
+    setCurrentDay, 
+    currentTaskId, 
+    setCurrentTaskId, 
+    searchByText, 
+    searchByLabel,
+    holidays  } = useTasksContext()
   const [openModal, setOpenModal] = useState<Boolean>(false)
   const [taskText, setTaskText] = useState<string>('')
 
@@ -32,18 +40,88 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
     }
   }, [taskText])
 
+  const dragOverHandler = (e: React.DragEvent<HTMLLIElement>) => {
+    e.preventDefault()
+  }
+
+  const dropHandler = (e: React.DragEvent<HTMLLIElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    let updatedTaskslist = tasksList.map(task => {
+      if (currentDay && task.date === currentDay.fullDate) {
+        return {
+          date: task.date,
+          tasks: task.tasks.filter(task => task.id !== currentTaskId)
+        }
+      }
+
+      return task
+    })
+
+    const currentTask = tasksList.find(task => task.date === currentDay?.fullDate)?.tasks.find(task => task.id === currentTaskId)
+
+    if (currentTask)  {
+      const isNotEmptyDay = tasksList.find(task => task.date === dayInfo.fullDate)?.tasks
+      if (isNotEmptyDay && dayInfo.fullDate !== currentDay?.fullDate) {
+        updatedTaskslist = updatedTaskslist.map(task => {
+          if (task.date === dayInfo.fullDate) {
+            return {
+              date: task.date,
+              tasks: [...isNotEmptyDay, {...currentTask, date: dayInfo.fullDate}],
+            }
+          }
+
+          return task
+        })
+      } else {
+        const newTask = {
+          date: dayInfo.fullDate,
+          tasks: [{...currentTask, date: dayInfo.fullDate}]
+        }
+
+        updatedTaskslist.push(newTask)
+      }
+    }
+
+    updatedTaskslist = updatedTaskslist.filter(task => task.tasks.length !== 0)
+
+    setTasksList(updatedTaskslist)
+    setCurrentDay(null)
+    setCurrentTaskId(null)
+  }
+
   return (
     <>
-      <li className={`${dayInfo.inactive ? 'inactive' : ''} ${dayInfo.active ? 'active' : ''} day-cell`}>
+      <li className={`${dayInfo.inactive ? 'inactive' : ''} ${dayInfo.active ? 'active' : ''} day-cell`}
+        draggable={true}
+        onDragOver={(e) => dragOverHandler(e)}
+        onDrop={(e) => dropHandler(e)}
+      >
         <div className='day-header'>
           <div className='day-number'>{dayInfo.day}</div>
+          <div className='holiday-wrapper'>
+          {holidays[dayInfo.fullDate] 
+            ? <>{holidays[dayInfo.fullDate].map(h =>
+              <div className='holiday-content'>{h.name}</div> 
+              )}</>
+            : <>Loading</>}
+          </div>
           <img src="./plus-icon.png" alt="add item"  className='add-item-icon' onClick={(e) => {openModalHandler(e)}} />
         </div>
-        {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks.map((task) => 
-          <div key={`${task.id}+${task.text}`}>
-            <Task day={dayInfo} id={task.id} text={task.text} labels={task.labels}  />
-          </div>
-        )}
+        {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks
+          .filter(task => searchByText 
+            ? task.text.toLocaleLowerCase().includes(searchByText.toLocaleLowerCase()) 
+            : true)
+          .filter(task => searchByLabel 
+            ? task.labels.includes(searchByLabel) 
+            : true)
+          .map((task) => 
+            <div key={`${task.id}+${task.text}`}>
+              <Task day={dayInfo} id={task.id} text={task.text} labels={task.labels}  />
+            </div>
+          )
+        }
       </li>
       {openModal && <Modal setTaskText={setTaskText} setOpenModal={setOpenModal}/>}
     </>

@@ -5,7 +5,7 @@ import LabelMenu from '../LabelMenu/LebelMenu'
 import { DayInfo } from '../../types'
 
 const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: string, labels: string[] }) => {
-  const {tasksList, setTasksList, currentDay, setCurrentDay, currentTask, setCurrentTask} = useTasksContext()
+  const {tasksList, setTasksList, currentDay, setCurrentDay, currentTaskId, setCurrentTaskId} = useTasksContext()
   const [isEditing, setIsEditing] = useState<Boolean>(false)
   const [editedText, setEditedText] = useState<string>(text)
 
@@ -58,7 +58,6 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   const dragOverHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log('drag over')
     const targetElement = e.currentTarget as HTMLDivElement
     if(targetElement.className === 'task') {
       targetElement.style.boxShadow = '0 0 10px 0 rgba(0, 0, 0, 0.5)'
@@ -67,21 +66,18 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
 
   const dragLeaveHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation() 
-    console.log('drag leave')
     const targetElement = e.currentTarget as HTMLDivElement
     targetElement.style.boxShadow = 'none'
   }
 
-  const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, currentDay: DayInfo, currentTask: string) => {
+  const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, currentDay: DayInfo, currentTaskId: string) => {
     e.stopPropagation()
-    console.log('drag start')
     setCurrentDay(currentDay)
-    setCurrentTask(currentTask)
+    setCurrentTaskId(currentTaskId)
   }
   
   const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    console.log('drag end')
     const targetElement = e.currentTarget as HTMLDivElement
     targetElement.style.boxShadow = 'none'
   }
@@ -89,17 +85,15 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   const dropHandler = (e: React.DragEvent<HTMLDivElement>, day: DayInfo, id: string) => {
     e.stopPropagation()
  
-    if (currentDay && currentTask) {
+    if (currentDay && currentTaskId) {
       if (currentDay === day) {
         const listOfTasksToUpdate = tasksList.find(task => task.date === currentDay.fullDate)?.tasks
-        const listOfTasksToUpdateWithoutCurrent = listOfTasksToUpdate?.filter(task => task.id !== currentTask)
+        const listOfTasksToUpdateWithoutCurrent = listOfTasksToUpdate?.filter(task => task.id !== currentTaskId)
         let destinationElementIndex = listOfTasksToUpdate?.findIndex(task => task.id === id)
         destinationElementIndex = destinationElementIndex && destinationElementIndex !== 0 ? ++destinationElementIndex : 1
         const tasksBeforeDrop = listOfTasksToUpdateWithoutCurrent?.slice(0, destinationElementIndex)
         const tasksAfterDrop = listOfTasksToUpdateWithoutCurrent?.slice(destinationElementIndex)
-        const currentTaskToUpdate = listOfTasksToUpdate?.find(task => task.id === currentTask)
-        console.log('currentTaskToUpdate', currentTaskToUpdate)
-        console.log('tasksBeforeDrop', tasksBeforeDrop)
+        const currentTaskToUpdate = listOfTasksToUpdate?.find(task => task.id === currentTaskId)
 
         const updatedTasks = tasksBeforeDrop && tasksAfterDrop && currentTaskToUpdate
         ? [...tasksBeforeDrop, currentTaskToUpdate, ...tasksAfterDrop] 
@@ -117,14 +111,14 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
 
         setTasksList(updatedTasksList)
         setCurrentDay(null)
-        setCurrentTask(null)
+        setCurrentTaskId(null)
 
         const targetElement = e.currentTarget as HTMLDivElement
         targetElement.style.boxShadow = 'none'
         return
       }
       const sourceTaskListIndex = tasksList.findIndex(task => task.date === currentDay.fullDate)
-      const sourceTaskIndex = tasksList[sourceTaskListIndex].tasks.findIndex(task => task.id === currentTask)
+      const sourceTaskIndex = tasksList[sourceTaskListIndex].tasks.findIndex(task => task.id === currentTaskId)
   
       const destinationTaskListIndex = tasksList.findIndex(task => task.date === day.fullDate)
   
@@ -156,7 +150,7 @@ const Task = ({day, id, text, labels,  }: { day: DayInfo, id: string, text: stri
   
       setTasksList(updatedTasksList)
       setCurrentDay(null)
-      setCurrentTask(null)
+      setCurrentTaskId(null)
     }
 
     const targetElement = e.currentTarget as HTMLDivElement
