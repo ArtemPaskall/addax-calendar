@@ -5,6 +5,7 @@ import Modal from "../Modal/Modal"
 import Task from "../Task/Task"
 import './Day.scss'
 import uuid from 'react-uuid'
+import Holidays from '../Holidays/Holidays'
 
 function Day({ dayInfo}: { dayInfo: DayInfo }) {
   const { tasksList, 
@@ -15,7 +16,7 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
     setCurrentTaskId, 
     searchByText, 
     searchByLabel,
-    holidays  } = useTasksContext()
+  holidays} = useTasksContext()
   const [openModal, setOpenModal] = useState<Boolean>(false)
   const [taskText, setTaskText] = useState<string>('')
 
@@ -90,7 +91,7 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
     setCurrentDay(null)
     setCurrentTaskId(null)
   }
-
+console.log(holidays)
   return (
     <>
       <li className={`${dayInfo.inactive ? 'inactive' : ''} ${dayInfo.active ? 'active' : ''} day-cell`}
@@ -100,13 +101,7 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
       >
         <div className='day-header'>
           <div className='day-number'>{dayInfo.day}</div>
-          <div className='holiday-wrapper'>
-          {holidays[dayInfo.fullDate] 
-            ? <>{holidays[dayInfo.fullDate].map(h =>
-              <div className='holiday-content'>{h.name}</div> 
-              )}</>
-            : <>Loading</>}
-          </div>
+          <Holidays dayInfo={dayInfo} />
           <img src="./plus-icon.png" alt="add item"  className='add-item-icon' onClick={(e) => {openModalHandler(e)}} />
         </div>
         {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks

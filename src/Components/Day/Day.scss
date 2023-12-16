@@ -39,8 +39,14 @@
   width: 100%;
 }
 
+
+
 .holiday-content {
   font-size: 12px;
   color: rgb(237, 38, 38);
   text-align: center;
+
+  &--first {
+    color: blue;
+  }
 }
