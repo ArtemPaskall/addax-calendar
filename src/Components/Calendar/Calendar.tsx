@@ -87,8 +87,13 @@ const Calendar = () => {
             <span onClick={() => handlePrevNext('next')}>{'>'}</span>
           </div>
         </div>
-        <TextSearcher />
-        <LabelSearcher />
+        <div className='searchers-wrapper'>
+          <TextSearcher />
+          <div className='label-searcher-wrapper'>
+            <span>Search by Color:</span>
+            <LabelSearcher />
+          </div>
+        </div>
         <div className='buttons-wrapper'>
           <ExportImageButton />
           <ExportTasksJsonButton />

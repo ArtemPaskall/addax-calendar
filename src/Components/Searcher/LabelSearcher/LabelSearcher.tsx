@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTasksContext } from '../../../store'
+import './LabelSearcher.scss'
 
 function LabelSearcher()  {
   const [inputLabel, setInputLabel] = useState<string | null>(null) 

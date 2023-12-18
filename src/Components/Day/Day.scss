@@ -6,12 +6,21 @@
   border: 1px solid rgb(80, 80, 80);
 }
 
+.days li.inactive{
+  color: #aaa;
+}
+
+
 .day-cell {
   border: 1px solid rgb(65, 64, 64);
   list-style: none;
 
   &:hover .add-item-icon {
     opacity: 1;
+  }
+
+  &.inactive {
+    background-color: #c9d9e7;
   }
 }
 
