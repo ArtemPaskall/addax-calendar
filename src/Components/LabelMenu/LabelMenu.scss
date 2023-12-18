@@ -28,6 +28,7 @@
   cursor: pointer;
   margin: 3px 0;
   list-style: none;
+  z-index: 10;
 
   &--active {
     &::before {

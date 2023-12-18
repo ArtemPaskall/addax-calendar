@@ -15,8 +15,7 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
     currentTaskId, 
     setCurrentTaskId, 
     searchByText, 
-    searchByLabel,
-  holidays} = useTasksContext()
+    searchByLabel } = useTasksContext()
   const [openModal, setOpenModal] = useState<Boolean>(false)
   const [taskText, setTaskText] = useState<string>('')
 
@@ -91,7 +90,7 @@ function Day({ dayInfo}: { dayInfo: DayInfo }) {
     setCurrentDay(null)
     setCurrentTaskId(null)
   }
-console.log(holidays)
+
   return (
     <>
       <li className={`${dayInfo.inactive ? 'inactive' : ''} ${dayInfo.active ? 'active' : ''} day-cell`}
@@ -101,7 +100,7 @@ console.log(holidays)
       >
         <div className='day-header'>
           <div className='day-number'>{dayInfo.day}</div>
-          <Holidays dayInfo={dayInfo} />
+          <Holidays date={dayInfo.fullDate} />
           <img src="./plus-icon.png" alt="add item"  className='add-item-icon' onClick={(e) => {openModalHandler(e)}} />
         </div>
         {tasksList.find(task => task.date === dayInfo.fullDate)?.tasks

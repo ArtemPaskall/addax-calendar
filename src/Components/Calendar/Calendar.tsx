@@ -80,16 +80,20 @@ const Calendar = () => {
   return (
     <div className="wrapper" id='wrapper'>
       <header>
-        <p className="current-date">{`${months[currMonth]} ${currYear}`}</p>
-        <div className="icons">
-          <span onClick={() => handlePrevNext('prev')}>{'<'}</span>
-          <span onClick={() => handlePrevNext('next')}>{'>'}</span>
+        <div className='date-wrapper'>
+          <p className="current-date">{`${months[currMonth]} ${currYear}`}</p>
+          <div className="icons">
+            <span onClick={() => handlePrevNext('prev')}>{'<'}</span>
+            <span onClick={() => handlePrevNext('next')}>{'>'}</span>
+          </div>
         </div>
         <TextSearcher />
         <LabelSearcher />
-        <ExportImageButton />
-        <ExportTasksJsonButton />
-        <ImportTasksJsonButton />
+        <div className='buttons-wrapper'>
+          <ExportImageButton />
+          <ExportTasksJsonButton />
+          <ImportTasksJsonButton />
+        </div>
       </header>
       <div className="calendar">
         <ul className="weeks">

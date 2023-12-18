@@ -25,8 +25,10 @@ const Modal: React.FC<ModalProps> = ({ children, setTaskText, setOpenModal}) => 
   return (  
     <div className="modal modal--active">
       <div className="modal__content">
+        <label htmlFor="myInput">Enter your task and press Enter</label>
         <input 
           type="text" 
+          id="myInput"
           className='modal__input' 
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
@@ -34,6 +36,7 @@ const Modal: React.FC<ModalProps> = ({ children, setTaskText, setOpenModal}) => 
           onKeyDown={handleKeyPress}
         />
       </div>
+      
     </div>
   )
 }

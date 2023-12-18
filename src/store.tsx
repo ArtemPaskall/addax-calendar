@@ -19,7 +19,7 @@ interface TasksContextData {
 
 const labelsArray = ['red','yellow', 'blue', 'green', 'orange', 'black']
 
-export const TasksContex = createContext<TasksContextData>({} as TasksContextData);
+export const TasksContex = createContext<TasksContextData>({} as TasksContextData)
 
 const TasksProvider = ({ children } : { children: ReactNode }) => {
   const [tasksList, setTasksList] = useState<Taskslist[]>([])
