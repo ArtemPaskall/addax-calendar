@@ -30,8 +30,8 @@ const Holidays = ({ date }: {date: string}) => {
               </div>
               <div className={`holiday-content ${open ? 'holiday-content--open' : ''}`}>
                 <div style={{minHeight: '0px'}}>
-                  {holidays[date].map((holiday) => (
-                    <div className="holiday-name">{holiday.name}</div>
+                  {holidays[date].map((holiday, index) => (
+                    <div key={index} className="holiday-name">{holiday.name}</div>
                   ))}
                 </div>
               </div>
