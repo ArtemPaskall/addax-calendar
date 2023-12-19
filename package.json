@@ -1,6 +1,6 @@
 {
   "name": "addax-test-task",
-  "homepage": "https://github.com/ArtemPaskall/addax-calendar",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
