@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/gitname/react-gh-pages/static/css/main.3c6cf4a7.css",
-    "main.js": "/gitname/react-gh-pages/static/js/main.ef470536.js",
-    "index.html": "/gitname/react-gh-pages/index.html",
-    "main.3c6cf4a7.css.map": "/gitname/react-gh-pages/static/css/main.3c6cf4a7.css.map",
-    "main.ef470536.js.map": "/gitname/react-gh-pages/static/js/main.ef470536.js.map"
+    "main.css": "/ArtemPaskall/addax-calendar/static/css/main.3c6cf4a7.css",
+    "main.js": "/ArtemPaskall/addax-calendar/static/js/main.ef470536.js",
+    "index.html": "/ArtemPaskall/addax-calendar/index.html",
+    "main.3c6cf4a7.css.map": "/ArtemPaskall/addax-calendar/static/css/main.3c6cf4a7.css.map",
+    "main.ef470536.js.map": "/ArtemPaskall/addax-calendar/static/js/main.ef470536.js.map"
   },
   "entrypoints": [
     "static/css/main.3c6cf4a7.css",
