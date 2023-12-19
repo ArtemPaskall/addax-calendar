@@ -15,40 +15,49 @@ const App = () => {
           throw new Error('Countries fetch failed')
         }
         const countriesArray = await fetchCountries.json()
-  
+
         const countriesArrayWithHolidaysPromises = countriesArray.map(async (country: any) => {
-          const fetchHolidays2023 = await fetch(`https://date.nager.at/api/v3/PublicHolidays/2023/${country.countryCode}`)
-          const fetchHolidays2024 = await fetch(`https://date.nager.at/api/v3/PublicHolidays/2024/${country.countryCode}`)
+          const fetchHolidays2023 = await fetch(
+            `https://date.nager.at/api/v3/PublicHolidays/2023/${country.countryCode}`,
+          )
+          const fetchHolidays2024 = await fetch(
+            `https://date.nager.at/api/v3/PublicHolidays/2024/${country.countryCode}`,
+          )
           if (!fetchHolidays2023.ok || !fetchHolidays2024.ok) {
             throw new Error('Holidays fetch failed')
           }
           const holidaysArray2023 = await fetchHolidays2023.json()
           const holidaysArray2024 = await fetchHolidays2024.json()
-  
+
           const fetchHolidays = [...holidaysArray2023, ...holidaysArray2024]
-  
+
           return {
             ...country,
-            holidays: fetchHolidays
+            holidays: fetchHolidays,
           }
         })
-  
+
         const countriesArrayWithHolidays = await Promise.all(countriesArrayWithHolidaysPromises)
-        const allHolidays: Holiday[] = countriesArrayWithHolidays.flatMap((country) => country.holidays)
-  
-        const holidaysByDate = allHolidays.reduce((acc: {[date: string]: Holiday[]}, holiday: Holiday) => {
-          const date = holiday.date
-          if (acc[date]) {
-            acc[date].push(holiday)
-          } else {
-            acc[date] = [holiday]
-          }
-          return acc
-        }, {})
-  
+        const allHolidays: Holiday[] = countriesArrayWithHolidays.flatMap(
+          country => country.holidays,
+        )
+
+        const holidaysByDate = allHolidays.reduce(
+          (acc: { [date: string]: Holiday[] }, holiday: Holiday) => {
+            const date = holiday.date
+            if (acc[date]) {
+              acc[date].push(holiday)
+            } else {
+              acc[date] = [holiday]
+            }
+            return acc
+          },
+          {},
+        )
+
         function filterUniqueNames(holidays: Holiday[]): Holiday[] {
           const uniqueNamesSet = new Set<string>()
-          return holidays.filter((holiday) => {
+          return holidays.filter(holiday => {
             if (!uniqueNamesSet.has(holiday.name)) {
               uniqueNamesSet.add(holiday.name)
               return true
@@ -56,20 +65,20 @@ const App = () => {
             return false
           })
         }
-        
-        Object.keys(holidaysByDate).forEach((date) => {
+
+        Object.keys(holidaysByDate).forEach(date => {
           holidaysByDate[date] = filterUniqueNames(holidaysByDate[date])
         })
-  
-        function changeDateFormat(holidays: {[date: string]: Holiday[]}) {
+
+        function changeDateFormat(holidays: { [date: string]: Holiday[] }) {
           Object.keys(holidays).forEach(date => {
             const dateArray = date.split('-')
-            const newDate = [dateArray[0], (+dateArray[1] - 1), +dateArray[2]].join('-')
+            const newDate = [dateArray[0], +dateArray[1] - 1, +dateArray[2]].join('-')
             holidays[newDate] = holidays[date]
             delete holidays[date]
           })
         }
-        
+
         changeDateFormat(holidaysByDate)
         setHolidays(holidaysByDate)
       } catch (error: any) {
@@ -78,12 +87,13 @@ const App = () => {
     }
 
     fetchData()
-  } , [])
+  }, [])
 
   return (
     <>
       <Calendar />
     </>
-  )}
+  )
+}
 
 export default App

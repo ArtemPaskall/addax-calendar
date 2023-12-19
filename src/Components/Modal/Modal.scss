@@ -1,11 +1,11 @@
 .modal {
-	position: fixed;
+  position: fixed;
   right: 0;
-	bottom: 0;
-	left: 0;
-	top: 0;
-	display: none;
-	background: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  left: 0;
+  top: 0;
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
 
   &__content {
     padding: 25px;
@@ -13,7 +13,7 @@
     border-radius: 16px;
     min-width: 250px;
   }
-  
+
   &--active {
     display: flex;
     justify-content: center;
@@ -21,7 +21,7 @@
     z-index: 1000;
   }
 
-  &__input  {
+  &__input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -29,4 +29,3 @@
     box-sizing: border-box;
   }
 }
-

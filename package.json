@@ -1,5 +1,6 @@
 {
-  "name": "my-ts-app",
+  "name": "addax-test-task",
+  "homepage": "https://github.com/gitname/react-gh-pages",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,7 +23,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +48,8 @@
   },
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.9",
+    "gh-pages": "^6.1.0",
+    "prettier": "^3.1.1",
     "sass": "^1.69.5"
   }
 }

@@ -7,7 +7,7 @@ interface ModalProps {
   setOpenModal: React.Dispatch<React.SetStateAction<Boolean>>
 }
 
-const Modal: React.FC<ModalProps> = ({ children, setTaskText, setOpenModal}) => {
+const Modal: React.FC<ModalProps> = ({ children, setTaskText, setOpenModal }) => {
   const [inputText, setInputText] = useState<string>('')
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -22,21 +22,20 @@ const Modal: React.FC<ModalProps> = ({ children, setTaskText, setOpenModal}) => 
     setOpenModal(false)
   }
 
-  return (  
+  return (
     <div className="modal modal--active">
       <div className="modal__content">
         <label htmlFor="myInput">Enter your task and press Enter</label>
-        <input 
-          type="text" 
+        <input
+          type="text"
           id="myInput"
-          className='modal__input' 
+          className="modal__input"
           value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
+          onChange={e => setInputText(e.target.value)}
           onBlur={handleBlur}
           onKeyDown={handleKeyPress}
         />
       </div>
-      
     </div>
   )
 }

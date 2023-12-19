@@ -1,51 +1,51 @@
-import  React, { ReactNode, createContext, useState, useContext } from 'react'
+import React, { ReactNode, createContext, useState, useContext } from 'react'
 import { Taskslist, DayInfo, Holiday } from './types'
-import initialTasks from './tasks.json'
+import initTasks from './initTasks.json'
 
 interface TasksContextData {
   tasksList: Taskslist[]
   setTasksList: React.Dispatch<React.SetStateAction<Taskslist[]>>
-  labelsArray: string[],
-  currentDay: DayInfo | null,
+  labelsArray: string[]
+  currentDay: DayInfo | null
   setCurrentDay: React.Dispatch<React.SetStateAction<DayInfo | null>>
-  currentTaskId: string | null,
-  setCurrentTaskId: React.Dispatch<React.SetStateAction<string | null>>,
-  searchByText: string | null,
+  currentTaskId: string | null
+  setCurrentTaskId: React.Dispatch<React.SetStateAction<string | null>>
+  searchByText: string | null
   setSearchByText: React.Dispatch<React.SetStateAction<string | null>>
-  searchByLabel: string | null,
+  searchByLabel: string | null
   setSearchByLabel: React.Dispatch<React.SetStateAction<string | null>>
-  holidays: {[date: string]: Holiday[]},
-  setHolidays: React.Dispatch<React.SetStateAction<{[date: string]: Holiday[]}>>,
+  holidays: { [date: string]: Holiday[] }
+  setHolidays: React.Dispatch<React.SetStateAction<{ [date: string]: Holiday[] }>>
 }
 
-const labelsArray = ['red','yellow', 'blue', 'green', 'orange', 'black']
+const labelsArray = ['red', 'yellow', 'blue', 'green', 'orange', 'black']
 
 export const TasksContex = createContext<TasksContextData>({} as TasksContextData)
 
-const TasksProvider = ({ children } : { children: ReactNode }) => {
-  const [tasksList, setTasksList] = useState<Taskslist[]>(initialTasks)
+const TasksProvider = ({ children }: { children: ReactNode }) => {
+  const [tasksList, setTasksList] = useState<Taskslist[]>(initTasks)
   const [currentDay, setCurrentDay] = useState<DayInfo | null>(null)
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null)
   const [searchByText, setSearchByText] = useState<string | null>(null)
   const [searchByLabel, setSearchByLabel] = useState<string | null>(null)
-  const [holidays, setHolidays] = useState<{[date: string]: Holiday[]}>({})
- 
+  const [holidays, setHolidays] = useState<{ [date: string]: Holiday[] }>({})
+
   return (
-    <TasksContex.Provider 
+    <TasksContex.Provider
       value={{
-        tasksList, 
-        setTasksList, 
-        labelsArray, 
-        currentDay, 
-        setCurrentDay, 
-        currentTaskId, 
+        tasksList,
+        setTasksList,
+        labelsArray,
+        currentDay,
+        setCurrentDay,
+        currentTaskId,
         setCurrentTaskId,
         searchByText,
         setSearchByText,
-        searchByLabel, 
+        searchByLabel,
         setSearchByLabel,
         holidays,
-        setHolidays
+        setHolidays,
       }}
     >
       {children}
@@ -53,11 +53,11 @@ const TasksProvider = ({ children } : { children: ReactNode }) => {
   )
 }
 
-const useTasksContext = (): TasksContextData  => {  
+const useTasksContext = (): TasksContextData => {
   const context = useContext(TasksContex as React.Context<TasksContextData>)
 
   if (!context) {
-    throw new Error("useTasksContext must be used within a TasksProvider")
+    throw new Error('useTasksContext must be used within a TasksProvider')
   }
 
   return context

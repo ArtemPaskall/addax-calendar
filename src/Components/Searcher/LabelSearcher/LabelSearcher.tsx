@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useTasksContext } from '../../../store'
 import './LabelSearcher.scss'
 
-function LabelSearcher()  {
-  const [inputLabel, setInputLabel] = useState<string | null>(null) 
-  const {labelsArray, setSearchByLabel} = useTasksContext()
+function LabelSearcher() {
+  const [inputLabel, setInputLabel] = useState<string | null>(null)
+  const { labelsArray, setSearchByLabel } = useTasksContext()
 
   const inputLabelHandler = (label: string | null) => {
     inputLabel === label ? setInputLabel(null) : setInputLabel(label)
@@ -16,17 +16,16 @@ function LabelSearcher()  {
 
   return (
     <div className="color-menu">
-      <button className='colorChange-button'></button>
-      <ul className='drop-down-colors'>
-        {labelsArray.map((label) => 
-          <li 
-            key={label} 
-            className={`color-item ${inputLabel === label && 'color-item--active'}`} 
-            style={{backgroundColor: `${label}`}}
+      <button className="colorChange-button"></button>
+      <ul className="drop-down-colors">
+        {labelsArray.map(label => (
+          <li
+            key={label}
+            className={`color-item ${inputLabel === label && 'color-item--active'}`}
+            style={{ backgroundColor: `${label}` }}
             onClick={() => inputLabelHandler(label)}
-          >
-          </li>
-        )}
+          ></li>
+        ))}
       </ul>
     </div>
   )

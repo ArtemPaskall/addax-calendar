@@ -6,10 +6,9 @@
   border: 1px solid rgb(80, 80, 80);
 }
 
-.days li.inactive{
+.days li.inactive {
   color: #aaa;
 }
-
 
 .day-cell {
   border: 1px solid rgb(65, 64, 64);
@@ -42,5 +41,3 @@
   transition: all 0.3s;
   opacity: 0;
 }
-
-

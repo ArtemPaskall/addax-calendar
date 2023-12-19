@@ -7,11 +7,11 @@ const ImportTasksJsonButton = () => {
     let file = e.target.files?.[0]
     if (file) {
       const reader = new FileReader()
-      reader.onload = (event) => {
+      reader.onload = event => {
         const result = event.target?.result as string
         if (result) {
           try {
-            const importedTasks = JSON.parse(result) 
+            const importedTasks = JSON.parse(result)
             setTasksList(importedTasks)
             e.target.value = ''
           } catch (error) {
@@ -20,7 +20,7 @@ const ImportTasksJsonButton = () => {
         } else {
           console.error('File content is null or undefined.')
         }
-      };
+      }
       reader.readAsText(file)
     }
   }

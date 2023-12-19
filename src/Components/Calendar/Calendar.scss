@@ -13,13 +13,13 @@
   column-gap: 15px;
 }
 
-.icons span{
+.icons span {
   cursor: pointer;
   padding: 15px;
   position: relative;
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     background-color: rgb(230, 209, 175);
     width: 35px;
@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  column-gap: 10px; 
+  column-gap: 10px;
 
   & button {
     border: 2px solid rgb(78, 127, 177);
@@ -59,13 +59,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  column-gap: 30px; 
+  column-gap: 30px;
 }
 
 .label-searcher-wrapper {
   display: flex;
   align-items: center;
-  column-gap: 10px; 
+  column-gap: 10px;
 
   & span {
     font-size: 12px;
